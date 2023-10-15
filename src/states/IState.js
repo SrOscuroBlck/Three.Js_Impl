@@ -1,3 +1,4 @@
+
 class IState {
     enter({scene}) {
       throw new Error('Subclasses must implement the enter method.');

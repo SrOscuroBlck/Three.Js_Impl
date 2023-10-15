@@ -1,10 +1,15 @@
 import * as THREE from 'three';
 
+/**
+ * This class represents a single dot in 3D space.
+ * @constructor color - The color of the dot in hex format.
+ * @constructor size - The size of the dot could be an integer or a double.
+ */
 class Dot {
   geometry;
   material;
   points;
-  
+
   constructor(color = 0xff0000, size = 0.05) {
     this.geometry = new THREE.BufferGeometry();
 
@@ -16,6 +21,12 @@ class Dot {
     this.points = new THREE.Points(this.geometry, this.material);
   }
 
+  /**
+   * This method sets the position of the dot.
+   * @param  x axis integer or double
+   * @param  y axis integer or double
+   * @param  z axis integer or double
+   */
   setPosition(x, y, z) {
     this.geometry.attributes.position.setXYZ(0, x, y, z);
     this.geometry.attributes.position.needsUpdate = true;

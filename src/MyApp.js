@@ -1,21 +1,25 @@
 import StaticListState from "./states/StaticListState";
 import IFiniteStateMachine from "../IFiniteStateMachine";
 
+/**
+ * This class represents the main application.
+ * It implements the pseudo interface IFiniteStateMachine with
+ * four states: INITIAL, ROTATIONAL, TRANSLATIONAL, FLEX.
+ * @constructor @param {Scene} scene - The three.js scene where the application will be rendered.
+ */
 class MyApp extends IFiniteStateMachine {
-  
+
   constructor(scene) {
     super();
-    this.state = "STATICLIST";
+    this.state = "INITIAL";
     this.transitions = {
-      STATICLIST: new StaticListState(scene),
-      STATICGRAPH: null,
+      INITIAL: new StaticListState(scene),
+      ROTATIONAL: null,
+      TRANSLATIONAL: null,
+      FLEX: null,
     };
   }
-
-  addTransition(name, transitionFunction) {
-    this.transitions[name] = transitionFunction;
-  }
-
+  
   dispatch(actionName, ...args) {
     const actions = this.transitions[this.state];
 

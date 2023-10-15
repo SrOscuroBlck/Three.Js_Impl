@@ -19,7 +19,7 @@ class StaticListState extends IState {
         this.linkedList.append(dot);
       }
   
-      this.linkedList.render(scene); // Pass the scene as a parameter
+      this.linkedList.render(scene);
     }
   
     update() {
