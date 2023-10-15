@@ -30,7 +30,7 @@ class DotLinkedList {
     const list = new DotLinkedList();
     for (let i = 0; i < length; i++) {
       const dot = new Dot(0xff0000, 0.1);
-      dot.setPosition(i, i+0.5, i+0.7);
+      dot.setPosition(i, i + 0.5, i + 0.7);
       list.append(dot);
     }
     list._tail = list._head;
@@ -43,6 +43,10 @@ class DotLinkedList {
       this._current = this._head;
     } else {
       this._current = this._current.next;
+      if (this._current === null) {
+        this._current = this._head;
+        return null;
+      }
     }
 
     return this._current;

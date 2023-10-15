@@ -9,7 +9,8 @@ class Dot {
   geometry;
   material;
   points;
-  axis; 
+  axis;
+  next; 
 
   constructor(color = 0xff0000, size = 0.05) {
     this.geometry = new THREE.BufferGeometry();
@@ -17,21 +18,20 @@ class Dot {
     this.geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     this.material = new THREE.PointsMaterial({ color, size });
     this.points = new THREE.Points(this.geometry, this.material);
-    this.axis = new THREE.Vector3(1, 0, 0); 
+    this.axis = new THREE.Vector3(1, 0, 0);
+    this.next = null; 
   }
 
   /**
    * This method sets the position and axis of the dot.
-   * @param  x axis integer or double
-   * @param  y axis integer or double
-   * @param  z axis integer or double
+   * @param x - Axis coordinate (integer or double).
+   * @param y - Axis coordinate (integer or double).
+   * @param z - Axis coordinate (integer or double).
    */
   setPosition(x, y, z) {
     this.geometry.attributes.position.setXYZ(0, x, y, z);
     this.geometry.attributes.position.needsUpdate = true;
-
   }
-
 }
 
 export default Dot;
