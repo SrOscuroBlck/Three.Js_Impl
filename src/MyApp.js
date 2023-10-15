@@ -1,5 +1,6 @@
-import StaticListState from "./states/StaticListState";
+import StaticState from "./states/StaticState";
 import IFiniteStateMachine from "../IFiniteStateMachine";
+import RotationalState from "./states/RotationalState";
 
 /**
  * This class represents the main application.
@@ -13,8 +14,8 @@ class MyApp extends IFiniteStateMachine {
     super();
     this.state = "INITIAL";
     this.transitions = {
-      INITIAL: new StaticListState(scene),
-      ROTATIONAL: null,
+      INITIAL: new StaticState(),
+      ROTATIONAL: new RotationalState(),
       TRANSLATIONAL: null,
       FLEX: null,
     };
@@ -34,6 +35,7 @@ class MyApp extends IFiniteStateMachine {
 
   changeState(newState) {
     this.state = newState;
+    console.log(`State changed to: ${this.state}`)
   }
 }
 
