@@ -1,6 +1,13 @@
 import IState from "./IState";
 import * as THREE from "three";
 
+
+/**
+ * This class is a instanciable state that represents the rotational state implementing
+ * the pseudo interface IState.
+ * The constructor takes no arguments.
+ * 
+ */
 class RotationalState extends IState {
   dataStructure3D;
 
@@ -13,12 +20,19 @@ class RotationalState extends IState {
     this.dataStructure3D.render(scene);
   }
 
+  handleInput({ input }) {
+
+
+
+
+  }
   /**
    * This method rotates the entire structure around a given axis.
    * If no axis is given, the method will use the middle point of the structure.
    * @param {any} axisNode - The axis node to rotate around.
    * @param {number} amount of rotation
    * @param {string} direction of rotation
+   * To do modification for the graph3d structure
    */
   rotateEntireStructure({ axisNode = null, angle, amount, direction }) {
     let axis;
@@ -30,7 +44,6 @@ class RotationalState extends IState {
     } else {
       axis = axisNode;
     }
-
 
     axis.axis.normalize();
 

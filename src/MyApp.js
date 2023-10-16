@@ -25,7 +25,6 @@ class MyApp extends IFiniteStateMachine {
     const actions = this.transitions[this.state];
 
     const action = actions[actionName]; 
-
     if (action) {
       action.apply(this, ...args);
     } else {
