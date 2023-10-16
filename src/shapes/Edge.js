@@ -10,9 +10,12 @@ import * as THREE from "three";
  */
 class Edge {
   edge;
-
+  node1;
+  node2;
 
   constructor(node1, node2, lineColor, lineWidth) {
+    this.node1 = node1;
+    this.node2 = node2;
     const material = new THREE.LineBasicMaterial({
       color: lineColor,
       linewidth: lineWidth,

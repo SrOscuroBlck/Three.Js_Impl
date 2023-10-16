@@ -1,12 +1,11 @@
 import IState from "./IState";
 import * as THREE from "three";
 
-
 /**
  * This class is a instanciable state that represents the rotational state implementing
  * the pseudo interface IState.
  * The constructor takes no arguments.
- * 
+ *
  */
 class RotationalState extends IState {
   dataStructure3D;
@@ -20,12 +19,7 @@ class RotationalState extends IState {
     this.dataStructure3D.render(scene);
   }
 
-  handleInput({ input }) {
-
-
-
-
-  }
+  handleInput({ input }) {}
   /**
    * This method rotates the entire structure around a given axis.
    * If no axis is given, the method will use the middle point of the structure.
@@ -34,39 +28,32 @@ class RotationalState extends IState {
    * @param {string} direction of rotation
    * To do modification for the graph3d structure
    */
-  rotateEntireStructure({ axisNode = null, angle, amount, direction }) {
-    let axis;
-
-    if (axisNode === null) {
-      const length = this.dataStructure3D.length();
-      const axisPosition = Math.round(length / 2);
-      axis = this.dataStructure3D.get(axisPosition);
-    } else {
-      axis = axisNode;
+  rotateEntireStructure({ axisNode, angle, direction }) {
+    if (!axisNode) {
+      throw new Error("You must provide an axisNode for rotation.");
     }
-
-    axis.axis.normalize();
-
+  
+    axisNode.axis.normalize();
+  
     const radians = direction === "clockwise" ? angle : -angle;
-
+  
     const quaternion = new THREE.Quaternion();
-    quaternion.setFromAxisAngle(axis.axis, radians);
+    
+    quaternion.setFromAxisAngle(axisNode.axis, radians);
 
-    while (this.dataStructure3D.next() !== null) {
-      const currentDot = this.dataStructure3D.current();
-      console.log("Before Rotation:");
-      console.log(currentDot.points.geometry);
-
-      // Apply the rotation
-      currentDot.points.geometry.applyQuaternion(quaternion);
-
-      console.log("After Rotation:");
-      console.log(currentDot.points.geometry);
-    }
-
-    // Log the final axis
-    console.log("Final Axis:");
-    console.log(axis.axis);
+    this.dataStructure3D.forEachNode((node) => {
+      node.points.geometry.applyQuaternion(quaternion);
+    });
+  
+    this.dataStructure3D.forEachEdge((edge) => {
+      const position1 = edge.node1.geometry.attributes.position.array;
+      const position2 = edge.node2.geometry.attributes.position.array;
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute([...position1, ...position2], 3));
+      edge.edge.geometry.dispose();
+      edge.edge.geometry = geometry;
+      edge.edge.geometry.attributes.position.needsUpdate = true;
+    });
   }
 }
 export default RotationalState;

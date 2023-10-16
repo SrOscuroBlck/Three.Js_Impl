@@ -40,6 +40,14 @@ class Dot {
     this.geometry.attributes.position.setXYZ(0, x, y, z);
     this.geometry.attributes.position.needsUpdate = true;
   }
+
+  /**
+   * This method updates the color of the dot.
+   * @param {number} color - The new color in hex format.
+   */
+    setColor(color) {
+      this.material.color.setHex(color);
+    }
 }
 
 export default Dot;
