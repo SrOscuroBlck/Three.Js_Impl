@@ -1,6 +1,6 @@
-# Three.js Development Environment Setup Guide
+# Setting up a Basic Three.js Project with Vite
 
-Three.js is a popular library for 3D graphics in the web browser. Whether you're new to web development or an experienced developer looking to delve into 3D, this guide will walk you through the process of setting up a development environment for Three.js.
+In this guide, we will walk through the process of setting up a new Three.js project using Vite. By the end, you'll have a rotating cube on your screen with interactive controls.
 
 ## Prerequisites
 
@@ -10,112 +10,80 @@ Before setting up the Three.js environment, ensure you have the following instal
 
 2. **A Code Editor**: While you can use any text editor, editors like [VSCode](https://code.visualstudio.com/), [Atom](https://atom.io/), or [Sublime Text](https://www.sublimetext.com/) come with extensions and features that make coding in JavaScript easier and more intuitive.
 
-## Setup Steps
 
-### 1. Create a New Project Directory
+3.  **Vite**: Vite is a new generation of front-end development server and bundler. It is incredibly fast, lightweight, and provides a rich set of features out of the box. you can learn more about it here: [Vite official website](https://vitejs.dev)
 
-Choose a location on your computer where you want to place your Three.js project and create a new directory:
+## Installation and Setup
 
-```bash
-mkdir my-threejs-project
-cd my-threejs-project
-```
-
-### 2. Initialize a New Node.js Project
-
-In your project directory, run:
+### 1. Create a new Vite project:
 
 ```bash
-npm init -y
+npm create vite@latest
 ```
 
-### 3. Install Three.js
+When prompted, select the following options:
 
-Now, install the Three.js library:
+- Project template: vanilla
+- Variant: javascript
 
+As said in console:
+- This opens your project directory:
+  ```bash
+  cd your-project-name
+  ```
+- This installs all the dependencies
+  ```bash
+  npm install
+  ```
+- This runs your project in the url that is provided, normally runs it in: http://localhost:5173/
+  ```bash
+  npm run dev
+  ```
+
+#### Dont forget to install Three.js
+Install three
 ```bash
 npm install three
 ```
 
-### 4. Setup a Web Server (Optional)
+### 2. Lets create our first scene:
 
-To run and view Three.js projects locally, it's beneficial to use a local web server.
-
-  - The easiest way is to install LiveServer extension in your VScode or a similar extension in the IDE of your preference.
-
-  - Or just set up serve. Install it globally:
-
-    ```bash
-    npm install -g serve
-    ```
-    
-    Once installed, you can navigate to your project directory and run:
-
-    ```bash
-    serve .
-    ```
-    
-    This will start a local web server, and you can view your project in a web browser by navigating to the provided URL (typically http://localhost:5000).
-
-## Create Your First Three.js Scene
-
-To get started, let's create a simple scene with a rotating cube. This will give you an idea of how to set up the scene, camera, renderer, and incorporate user controls.
-
-### Step 1: Install Three.js and OrbitControls
-
-Ensure you've already installed `three` as outlined earlier. 
-
-### Step 2: HTML Structure
-
-In your `index.html`, use the following structure:
-
+#### 1. Update the index.html:
+Replace the content of your index.html with:
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Three.js Cube Scene</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite + Three.js</title>
 </head>
 <body>
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./main.js"></script>
 </body>
 </html>
 ```
-Note that we're using type="module" for our script tag, which allows us to use ES6 module imports in our JavaScript file.
 
-### Step 3: JavaScript for Cube and Controls
-
-In your app.js, use the following code:
-
-
-```javascript
+#### 2. Create or Update the main.js:
+Replace or add the following code to your main.js:
+```js
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// Scene, camera, and renderer setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Cube setup
 const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true, wireframeLinewidth: 2 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
-
-// Camera position
 camera.position.z = 5;
 
-// OrbitControls for interactive manipulation of the scene
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// Handle window resize
 window.addEventListener('resize', function() {
     const newWidth = window.innerWidth;
     const newHeight = window.innerHeight;
@@ -124,25 +92,30 @@ window.addEventListener('resize', function() {
     renderer.setSize(newWidth, newHeight);
 });
 
-// Animation loop
 function animate() {
     requestAnimationFrame(animate);
-
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
-
     controls.update();
-
     renderer.render(scene, camera);
 }
 
 animate();
 ```
-### Step 4: Run the Scene
-- If you used LiveServer just open it inside the html code, and you will see the scene.
-- If you're using the serve package (or any other local server), start it and navigate to the provided URL to view your interactive cube scene.
 
-#### I hope this was helpful.
+### 3. Run the project:
+Now, start the Vite development server:
+```bash
+npm run dev
+```
+Navigate to the provided URL in your browser, and you should see a rotating wireframe cube that you can interact with using the mouse.
+
+I hope this was helpful
+
+
+
+
+
 
 
 
