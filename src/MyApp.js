@@ -1,6 +1,7 @@
 import StaticState from "./states/StaticState";
 import IFiniteStateMachine from "../IFiniteStateMachine";
 import RotationalState from "./states/RotationalState";
+import TranslationalState from "./states/TranslationalState";
 
 /**
  * This class represents the main application.
@@ -9,14 +10,13 @@ import RotationalState from "./states/RotationalState";
  * @constructor @param {Scene} scene - The three.js scene where the application will be rendered.
  */
 class MyApp extends IFiniteStateMachine {
-
   constructor(scene) {
     super();
     this.state = "INITIAL";
     this.transitions = {
       INITIAL: new StaticState(),
       ROTATIONAL: new RotationalState(),
-      TRANSLATIONAL: null,
+      TRANSLATIONAL: new TranslationalState(),
       FLEX: null,
     };
   }
@@ -35,6 +35,10 @@ class MyApp extends IFiniteStateMachine {
   changeState(newState) {
     this.state = newState;
     console.log(`State changed to: ${this.state}`)
+  }
+
+  currentState(){
+    return this.state;
   }
 }
 

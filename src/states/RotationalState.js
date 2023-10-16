@@ -1,3 +1,4 @@
+import RotationalController from "../controllers/RotationalController";
 import IState from "./IState";
 import * as THREE from "three";
 
@@ -9,7 +10,6 @@ import * as THREE from "three";
  */
 class RotationalState extends IState {
   dataStructure3D;
-
   constructor() {
     super();
   }

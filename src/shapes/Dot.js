@@ -26,7 +26,7 @@ class Dot {
     this.geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     this.material = new THREE.PointsMaterial({ color, size });
     this.points = new THREE.Points(this.geometry, this.material);
-    this.axis = new THREE.Vector3(1, 0, 0);
+    this.axis = new THREE.Vector3(1, 1, 1);
     this.next = null; 
   }
 
