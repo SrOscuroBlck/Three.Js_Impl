@@ -32,7 +32,7 @@ class RotationalState extends IState {
     if (!axisNode) {
       throw new Error("You must provide an axisNode for rotation.");
     }
-  
+    
     axisNode.axis.normalize();
   
     const radians = direction === "clockwise" ? angle : -angle;

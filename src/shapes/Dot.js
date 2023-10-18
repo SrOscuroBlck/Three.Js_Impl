@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 /**
  * This class represents a single dot in 3D space.
@@ -17,17 +17,25 @@ class Dot {
   material;
   points;
   axis;
-  next; 
+  next;
+  x;
+  y;
+  z;
 
-
-  constructor(color = 0xff0000, size = 0.05) {
+  constructor(x = -1, y = -1, z = -1, color = 0xff0000, size = 0.05) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
     this.geometry = new THREE.BufferGeometry();
-    const vertices = new Float32Array([0, 0, 0]);
-    this.geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+    const vertices = new Float32Array([x, y, z]);
+    this.geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(vertices, 3)
+    );
     this.material = new THREE.PointsMaterial({ color, size });
     this.points = new THREE.Points(this.geometry, this.material);
-    this.axis = new THREE.Vector3(1, 1, 1);
-    this.next = null; 
+    this.axis = new THREE.Vector3(x, y, z);
+    this.next = null;
   }
 
   /**
@@ -37,7 +45,11 @@ class Dot {
    * @param z - Axis coordinate (integer or double).
    */
   setPosition(x, y, z) {
-    this.geometry.attributes.position.setXYZ(0, x, y, z);
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.axis.set(this.x, this.y, this.z);
+    this.geometry.attributes.position.setXYZ(0, this.x, this.y, this.z);
     this.geometry.attributes.position.needsUpdate = true;
   }
 
@@ -45,9 +57,14 @@ class Dot {
    * This method updates the color of the dot.
    * @param {number} color - The new color in hex format.
    */
-    setColor(color) {
-      this.material.color.setHex(color);
-    }
+  setColor(color) {
+    this.material.color.setHex(color);
+  }
+
+
+  render(scene) {
+    scene.add(this.points);
+  }
 }
 
 export default Dot;

@@ -9,7 +9,7 @@ import TranslationalState from "./states/TranslationalState";
  * four states: INITIAL, ROTATIONAL, TRANSLATIONAL, FLEX.
  * @constructor @param {Scene} scene - The three.js scene where the application will be rendered.
  */
-class MyApp extends IFiniteStateMachine {
+class Automata extends IFiniteStateMachine {
   constructor(scene) {
     super();
     this.state = "INITIAL";
@@ -42,4 +42,4 @@ class MyApp extends IFiniteStateMachine {
   }
 }
 
-export default MyApp;
+export default Automata;
