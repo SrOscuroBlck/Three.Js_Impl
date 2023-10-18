@@ -1,5 +1,7 @@
 import Octree from "./data-structures/Octree";
 import * as THREE from "three";
+import Octree from "./data-structures/Octree";
+import * as THREE from "three";
 import scene from "./Scene";
 import renderer from "./Renderer";
 import camera from "./Camera";
