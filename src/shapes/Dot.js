@@ -18,11 +18,13 @@ class Dot {
   points;
   axis;
   next;
+  boundingSphere;
+  boundingBox;
   x;
   y;
   z;
 
-  constructor(x = -1, y = -1, z = -1, color = 0xff0000, size = 0.05) {
+  constructor(x , y , z , color = 0xff0000, size = 0.05) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -30,12 +32,16 @@ class Dot {
     const vertices = new Float32Array([x, y, z]);
     this.geometry.setAttribute(
       "position",
-      new THREE.BufferAttribute(vertices, 3)
+      new THREE.Float32BufferAttribute(vertices, 3)
     );
     this.material = new THREE.PointsMaterial({ color, size });
     this.points = new THREE.Points(this.geometry, this.material);
     this.axis = new THREE.Vector3(x, y, z);
     this.next = null;
+    this.points.geometry.computeBoundingSphere();
+    this.points.geometry.computeBoundingBox();
+    this.boundingSphere = this.points.geometry.boundingSphere;
+    this.boundingBox = this.points.geometry.boundingBox;
   }
 
   /**

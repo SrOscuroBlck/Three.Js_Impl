@@ -12,20 +12,25 @@ class Edge {
   edge;
   node1;
   node2;
-
+  boundingSphere;
+  boundingBox;
   constructor(node1, node2, lineColor, lineWidth) {
     this.node1 = node1;
     this.node2 = node2;
-    const material = new THREE.LineBasicMaterial({
-      color: lineColor,
-      linewidth: lineWidth,
-    });
+  
     const position1 = node1.geometry.attributes.position.array;
     const position2 = node2.geometry.attributes.position.array;
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position',
       new THREE.Float32BufferAttribute([...position1, ...position2], 3));
-    this.edge = new THREE.Line(geometry, material);
+    this.edge = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+      color: lineColor,
+      linewidth: lineWidth,
+    }));
+    this.edge.geometry.computeBoundingSphere();
+    this.edge.geometry.computeBoundingBox();
+    this.boundingSphere = this.edge.geometry.boundingSphere;
+    this.boundingBox = this.edge.geometry.boundingBox;
   }
 }
 

@@ -1,5 +1,5 @@
 import StaticState from "./states/StaticState";
-import IFiniteStateMachine from "../IFiniteStateMachine";
+import IFiniteStateMachine from "./IFiniteStateMachine";
 import RotationalState from "./states/RotationalState";
 import TranslationalState from "./states/TranslationalState";
 
@@ -7,10 +7,9 @@ import TranslationalState from "./states/TranslationalState";
  * This class represents the main application.
  * It implements the pseudo interface IFiniteStateMachine with
  * four states: INITIAL, ROTATIONAL, TRANSLATIONAL, FLEX.
- * @constructor @param {Scene} scene - The three.js scene where the application will be rendered.
  */
 class Automata extends IFiniteStateMachine {
-  constructor(scene) {
+  constructor() {
     super();
     this.state = "INITIAL";
     this.transitions = {

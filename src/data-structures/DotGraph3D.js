@@ -7,7 +7,7 @@ import Edge from "../shapes/Edge.js";
  * @property _edges - An array of _edges (lines).
  * @property _adjacencyList - An array of linked lists to represent the adjacency list.
  * @constructor does not accept parameters, it initializes the _nodes, _edges, and _adjacencyList.
- * @method addNode - Adds a new node (3D dot) to the graph.
+ * @method add - Adds a new node (3D dot) to the graph.
  * @method connect_Nodes - Connects two _nodes (dots) by creating an edge (line) and adding it to the _edges array.
  * @method removeNode - Removes a node from the graph and updates the adjacency list.
  * @method removeEdge - Removes an edge between two _nodes from the adjacency list.
@@ -35,9 +35,8 @@ class DotGraph3D {
    * @param {number} color - The color of the dot in hex format.
    * @param {number} size - The size of the dot could be an integer or a double.
    */
-  addNode(x, y, z, color, size) {
-    const newNode = new Dot(color, size);
-    newNode.setPosition(x, y, z);
+  add(x, y, z, color, size) {
+    const newNode = new Dot(x,y,z ,color, size);
     this._nodes.push(newNode);
     this._adjacencyList.push([]);
   }
@@ -156,16 +155,17 @@ forEachEdge(callback) {
   });
 }
   /**
-   * This method renders the _nodes and _edges in the scene.
-   * @param {Scene} scene
+   * This method adds the _nodes and _edges to the actual octree
+   * 
+   * 
    */
-  render(scene) {
+  addToOctree(octree) {
     this._nodes.forEach((node) => {
-      scene.add(node.points);
+      octree.add(node);
     });
 
     this._edges.forEach((edge) => {
-      scene.add(edge.edge);
+      octree.add(edge);
     });
   }
 }

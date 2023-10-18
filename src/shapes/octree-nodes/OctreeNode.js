@@ -90,7 +90,7 @@ class OctreeNode {
 			}
 
 		}
-
+    
 		return intersects;
 
 	}

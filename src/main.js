@@ -3,63 +3,60 @@ import * as THREE from "three";
 import scene from "./Scene";
 import renderer from "./Renderer";
 import camera from "./Camera";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import DotGraph3D from "./data-structures/DotGraph3D";
+import Automata from "./Automata";
+import StateController from "./controllers/StateController";  
+import RotationalController from "./controllers/RotationalController";
+import TranslationalController from "./controllers/TranslationalController";
+import {createCubeAndConnectFaces, calculateCenter }from "./utils/createCube";
+const controls = new OrbitControls(camera, renderer.domElement);
+camera.position.set( 0, 5, 10 );
+const cameraHelper = new THREE.CameraHelper(camera);
+scene.add(cameraHelper);
+
 
 // Create an octree
 const octree = new Octree();
-
-// Create the orbit controls instance
-const controls = new OrbitControls(camera, renderer.domElement);
-
-// Set the camera position
-camera.position.set(1, 5, 100);
-
-// Add some objects to the octree
-const objects = [];
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Green color
-
-for (let i = 0; i < 100; i++) {
-  const geometry = new THREE.BoxGeometry(1, 1, 1); 
-  const object = new THREE.Mesh(geometry, material); 
-  object.position.set(Math.random() * 100, Math.random() * 100, Math.random() * 100);
-
-  // Ensure that the object has a boundingSphere and boundingBox
-  object.geometry.computeBoundingSphere();
-  object.geometry.computeBoundingBox(); 
-
-  const customObject = {
-    mesh: object,
-    boundingSphere: object.geometry.boundingSphere.clone(),
-    boundingBox: object.geometry.boundingBox.clone(),
-  };
-
-  objects.push(customObject);
-
-
-  octree.add(customObject);
-}
-
+// Create your graph and add objects to the octree
+const graph = new DotGraph3D();
+createCubeAndConnectFaces(graph);
+const cubeCenter = calculateCenter();
+graph.add(cubeCenter.x,cubeCenter.y,cubeCenter.z,0x00ff00,0.2);
+const axisNode = graph.get(24); //get the center of the cube
+const automata = new Automata();
+const stateController = new StateController(automata,axisNode);
+const rotationalController = new RotationalController(automata,axisNode);
+const translationalController = new TranslationalController(automata,axisNode);
+automata.dispatch('enter', [{ octree : octree , dataStructure3D: graph }]);
 
 function animate() {
-
   controls.update();
-
-
+  camera.updateMatrixWorld();
+  camera.updateProjectionMatrix();
+  cameraHelper.update();
   const frustum = new THREE.Frustum();
-  frustum.setFromProjectionMatrix(camera.projectionMatrix.clone().multiply(camera.matrixWorldInverse));
+  frustum.setFromProjectionMatrix(
+    camera.projectionMatrix.clone().multiply(camera.matrixWorldInverse)
+  );
 
   // Use the octree to quickly determine which objects intersect the frustum
   const visibleObjects = octree.frustumCast(frustum);
 
   // Clear the scene
-  scene.children.length = 0;
+ // scene.children.length = 0;
 
   // Render the visible objects
   for (let i = 0; i < visibleObjects.length; i++) {
-    const object = visibleObjects[i];
-    scene.add(object.mesh);
+    let object;
+    if (visibleObjects[i].points) {
+      object = visibleObjects[i].points;
+    } else if (visibleObjects[i].edge) {
+      object = visibleObjects[i].edge;
+    }
+    scene.add(object);
   }
-
+ 
   // Render the scene
   renderer.render(scene, camera);
 

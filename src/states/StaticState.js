@@ -13,9 +13,9 @@ class StaticState extends IState {
       super();
     }
   
-    enter({scene, dataStructure3D}) {
+    enter({ octree, dataStructure3D}) {
       this.dataStructure3D = dataStructure3D;
-      this.dataStructure3D.render(scene);
+      this.dataStructure3D.addToOctree(octree);
     }
     handleInput({input}) {
       // No input handling needed in this state

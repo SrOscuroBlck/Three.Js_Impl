@@ -14,9 +14,8 @@ class RotationalState extends IState {
     super();
   }
 
-  enter({ scene, dataStructure3D }) {
+  enter({  dataStructure3D }) {
     this.dataStructure3D = dataStructure3D;
-    this.dataStructure3D.render(scene);
   }
 
   handleInput({ input }) {}

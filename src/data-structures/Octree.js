@@ -1,5 +1,8 @@
 import OctreeNode from "../shapes/octree-nodes/OctreeNode";
 import * as THREE from "three";
+const X_FLAG = 1 << 0;
+const Y_FLAG = 1 << 1;
+const Z_FLAG = 1 << 2;
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
 const cubeMaterial = new THREE.MeshBasicMaterial({
   color: 0x00ff00,
